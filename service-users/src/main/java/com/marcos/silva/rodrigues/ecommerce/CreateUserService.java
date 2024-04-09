@@ -15,8 +15,8 @@ public class CreateUserService {
     connection = DriverManager.getConnection(url);
     try {
       connection.createStatement().execute(
-              "create table users (" +
-                      "uuid varchar(200) primary_key, " +
+              "create table if not exists users  (" +
+                      "uuid varchar(200) primary key, " +
                       "email varchar(200) )"
       );
     } catch (SQLException ex) {
@@ -30,14 +30,13 @@ public class CreateUserService {
     try (
             var service = new KafkaService(
                     CreateUserService.class.getSimpleName(),
-                    "ECCOMERCE_NEW_ORDER",
+                    "ECOMMERCE_NEW_ORDER",
                     myService::parse,
                     Order.class,
                     Map.of());
             ) {
       service.run();
     }
-    System.out.println("Hello world!");
   }
 
   private void parse(ConsumerRecord<String, Order> record) throws SQLException {
