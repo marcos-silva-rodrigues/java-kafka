@@ -16,7 +16,7 @@ public class GsonDeserializer<T> implements Deserializer<T> {
   public void configure(Map<String, ?> configs, boolean isKey) {
     String o = String.valueOf(configs.get(TYPE_CONFIG));
     try {
-      this.type =(Class<T>) Class.forName(o);
+      this.type = (Class<T>) Class.forName(o);
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Type for deserializer does not exists in the classpath", e);
     }

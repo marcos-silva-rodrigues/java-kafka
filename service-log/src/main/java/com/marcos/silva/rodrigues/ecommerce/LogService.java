@@ -18,7 +18,7 @@ public class LogService {
                     Pattern.compile("ECOMMERCE.*"),
                     logService::parse,
                     String.class,
-                    Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getSimpleName()))
+                    Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()))
     ) {
       service.run();
     }
