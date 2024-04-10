@@ -35,7 +35,7 @@ public class BatchSendMessageService {
     try (
             var service = new KafkaService(
                     BatchSendMessageService.class.getSimpleName(),
-                    "SEND_MESSAGE_TO_ALL_USERS",
+                    "ECOMMERCE_SEND_MESSAGE_TO_ALL_USERS",
                     myService::parse,
                     String.class,
                     Map.of());
@@ -44,13 +44,19 @@ public class BatchSendMessageService {
     }
   }
 
-  private void parse(ConsumerRecord<String, String> record) throws SQLException, ExecutionException, InterruptedException {
+  private void parse(ConsumerRecord<String, Message<String>> record) throws SQLException, ExecutionException, InterruptedException {
     System.out.println("------------------------------");
     System.out.println("Processing new batch");
-    String topic = record.value();
+    var message =  record.value();
+    String topic = message.getPayload();
 
     for (User user: getAllUsers()) {
-      userDispatcher.send(topic, user.getUuid(), user);
+      userDispatcher.send(
+              topic,
+              user.getUuid(),
+              message.getId().continueWith(BatchSendMessageService.class.getSimpleName()),
+              user
+      );
     }
   }
 

@@ -1,11 +1,9 @@
 package com.marcos.silva.rodrigues.ecommerce;
 
-import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.eclipse.jetty.servlet.Source;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -35,12 +33,20 @@ public class NewOrderServlet extends HttpServlet {
 
       var order = new Order(orderId, amount, email);
 
-      orderDispatcher.send("ECOMMERCE_NEW_ORDER", email, order);
-      ;
+      orderDispatcher.send(
+              "ECOMMERCE_NEW_ORDER",
+              email,
+              new CorrelationId(NewOrderServlet.class.getSimpleName()),
+              order);
 
       var emailCode = "Thanks you for uor order! We are processing your order";
 
-      emailDispatcher.send("ECOMMERCE_SEND_EMAIL", email, emailCode);
+      emailDispatcher.send(
+              "ECOMMERCE_SEND_EMAIL",
+              email,
+              new CorrelationId(NewOrderServlet.class.getSimpleName()),
+              emailCode
+      );
       resp.getWriter().println("New order sent successfully");
       resp.setStatus(HttpServletResponse.SC_OK);
     } catch (ExecutionException | InterruptedException e) {
