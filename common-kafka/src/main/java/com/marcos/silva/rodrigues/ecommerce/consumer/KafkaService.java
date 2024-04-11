@@ -17,22 +17,22 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class KafkaService<T> implements Closeable {
-  private final ConsumerFunction parse;
+  private final ConsumerFunction<T> parse;
   private KafkaConsumer<String, Message<T>> consumer;
 
-  public KafkaService(String groupId, String topic, ConsumerFunction<T> parse, Class<T> type, Map<String, String> properties) {
-    this(groupId, parse, type, properties);
+  public KafkaService(String groupId, String topic, ConsumerFunction<T> parse, Map<String, String> properties) {
+    this(groupId, parse, properties);
     this.consumer.subscribe(Collections.singletonList(topic));
   }
 
-  public KafkaService(String groupId, Pattern topic, ConsumerFunction<T> parse, Class<T> type, Map<String, String> properties) {
-    this(groupId, parse, type, properties);
+  public KafkaService(String groupId, Pattern topic, ConsumerFunction<T> parse, Map<String, String> properties) {
+    this(groupId, parse, properties);
     this.consumer.subscribe(topic);
   }
 
-  private KafkaService(String groupId, ConsumerFunction<T> parse, Class<T> type, Map<String, String> properties) {
+  private KafkaService(String groupId, ConsumerFunction<T> parse, Map<String, String> properties) {
     this.parse = parse;
-    this.consumer = new KafkaConsumer<>(getProperties(type, groupId, properties));
+    this.consumer = new KafkaConsumer<>(getProperties( groupId, properties));
   }
 
 
@@ -63,7 +63,7 @@ public class KafkaService<T> implements Closeable {
 
   }
 
-  private Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
+  private Properties getProperties(String groupId, Map<String, String> overrideProperties) {
     var properties = new Properties();
 
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");

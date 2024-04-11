@@ -39,7 +39,6 @@ public class BatchSendMessageService {
                     BatchSendMessageService.class.getSimpleName(),
                     "ECOMMERCE_SEND_MESSAGE_TO_ALL_USERS",
                     myService::parse,
-                    String.class,
                     Map.of());
     ) {
       service.run();

@@ -18,7 +18,6 @@ public class LogService {
                     LogService.class.getSimpleName(),
                     Pattern.compile("ECOMMERCE.*"),
                     logService::parse,
-                    String.class,
                     Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()))
     ) {
       service.run();
@@ -26,7 +25,7 @@ public class LogService {
 
   }
 
-  private void parse(ConsumerRecord<String, String> record) {
+  private void parse(ConsumerRecord<String, Message<String>> record) {
     System.out.println("--------------------------------------------");
     System.out.println("Log " + record.topic());
     System.out.println(record.key());
