@@ -33,21 +33,31 @@ public class KafkaService<T> implements Closeable {
   }
 
 
-  public void run() {
-    System.out.println("runnn");
-    while (true) {
-      var records = consumer.poll(Duration.ofMillis(100));
-      if (!records.isEmpty()) {
-        System.out.println("Encontrei " + records.count() + " registros");
-        for (var record : records) {
-          try {
-            parse.consume(record);
-          } catch (Exception e) {
-//            throw new RuntimeException(e);
+  public void run() throws ExecutionException, InterruptedException {
+    try (var deadLetter = new KafkaDispatcher<>()) {
+      System.out.println("runnn");
+      while (true) {
+        var records = consumer.poll(Duration.ofMillis(100));
+        if (!records.isEmpty()) {
+          System.out.println("Encontrei " + records.count() + " registros");
+          for (var record : records) {
+            try {
+              parse.consume(record);
+            } catch (Exception e) {
+              var message = record.value();
+              deadLetter.send(
+                      "ECOMMERCE_DEADLETTER",
+                      message.getId().toString(),
+                      message.getId()
+                              .continueWith("DeadLetter"),
+                      new GsonSerializer<>()
+                              .serialize("", message));
+            }
           }
         }
       }
     }
+
   }
 
   private Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
