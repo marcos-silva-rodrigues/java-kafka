@@ -9,7 +9,7 @@ public interface ConsumerService<T> {
 
   String getTopic();
 
-  void parse(ConsumerRecord<String, Message<T>> record) throws IOException;
+  void parse(ConsumerRecord<String, Message<T>> record) throws Exception;
 
   String getConsumerGroup();
 }
