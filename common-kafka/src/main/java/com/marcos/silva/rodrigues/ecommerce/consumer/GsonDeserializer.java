@@ -1,7 +1,9 @@
-package com.marcos.silva.rodrigues.ecommerce;
+package com.marcos.silva.rodrigues.ecommerce.consumer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.marcos.silva.rodrigues.ecommerce.Message;
+import com.marcos.silva.rodrigues.ecommerce.MessageAdapter;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import java.util.Map;

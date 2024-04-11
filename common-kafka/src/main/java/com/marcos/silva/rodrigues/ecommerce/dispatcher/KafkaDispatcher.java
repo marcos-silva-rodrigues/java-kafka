@@ -1,5 +1,7 @@
-package com.marcos.silva.rodrigues.ecommerce;
+package com.marcos.silva.rodrigues.ecommerce.dispatcher;
 
+import com.marcos.silva.rodrigues.ecommerce.CorrelationId;
+import com.marcos.silva.rodrigues.ecommerce.Message;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -27,12 +29,12 @@ public class KafkaDispatcher<T> implements Closeable {
     return properties;
   }
 
-  public void send(String topic, String key,CorrelationId id,  T paylod) throws ExecutionException, InterruptedException {
-    Future<RecordMetadata> future = sendAsync(topic, key, id, paylod);
+  public void send(String topic, String key, CorrelationId id, T paylod) throws ExecutionException, InterruptedException {
+    Future<RecordMetadata> future = sendAsync(topic, key, id.continueWith("_" + topic), paylod);
     future.get();
   }
 
-    Future<RecordMetadata> sendAsync(String topic, String key, CorrelationId id, T paylod) {
+    public Future<RecordMetadata> sendAsync(String topic, String key, CorrelationId id, T paylod) {
     var value = new Message<>(id, paylod);
     var record = new ProducerRecord(topic, key, value);
 

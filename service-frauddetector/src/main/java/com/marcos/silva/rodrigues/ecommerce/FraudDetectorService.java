@@ -1,5 +1,7 @@
 package com.marcos.silva.rodrigues.ecommerce;
 
+import com.marcos.silva.rodrigues.ecommerce.consumer.KafkaService;
+import com.marcos.silva.rodrigues.ecommerce.dispatcher.KafkaDispatcher;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 

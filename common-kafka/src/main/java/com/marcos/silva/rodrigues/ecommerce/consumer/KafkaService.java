@@ -1,5 +1,8 @@
-package com.marcos.silva.rodrigues.ecommerce;
+package com.marcos.silva.rodrigues.ecommerce.consumer;
 
+import com.marcos.silva.rodrigues.ecommerce.Message;
+import com.marcos.silva.rodrigues.ecommerce.dispatcher.GsonSerializer;
+import com.marcos.silva.rodrigues.ecommerce.dispatcher.KafkaDispatcher;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;

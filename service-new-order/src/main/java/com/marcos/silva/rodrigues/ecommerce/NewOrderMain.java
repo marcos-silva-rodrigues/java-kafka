@@ -1,5 +1,7 @@
 package com.marcos.silva.rodrigues.ecommerce;
 
+import com.marcos.silva.rodrigues.ecommerce.dispatcher.KafkaDispatcher;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;

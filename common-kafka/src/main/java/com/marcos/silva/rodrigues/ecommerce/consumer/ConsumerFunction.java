@@ -1,8 +1,7 @@
-package com.marcos.silva.rodrigues.ecommerce;
+package com.marcos.silva.rodrigues.ecommerce.consumer;
 
+import com.marcos.silva.rodrigues.ecommerce.Message;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-
-import java.util.concurrent.ExecutionException;
 
 public interface ConsumerFunction<T> {
 

@@ -1,5 +1,6 @@
 package com.marcos.silva.rodrigues.ecommerce;
 
+import com.marcos.silva.rodrigues.ecommerce.dispatcher.KafkaDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

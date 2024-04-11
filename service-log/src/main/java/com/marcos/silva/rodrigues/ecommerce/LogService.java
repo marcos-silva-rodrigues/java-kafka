@@ -1,5 +1,6 @@
 package com.marcos.silva.rodrigues.ecommerce;
 
+import com.marcos.silva.rodrigues.ecommerce.consumer.KafkaService;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
